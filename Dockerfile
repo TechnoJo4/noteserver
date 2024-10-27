@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package.json .
 COPY tsconfig.json .
 ADD src/ /app/src/
-ADD public/ /app/public/
 RUN npm install
 RUN npm run build
 
@@ -15,4 +14,5 @@ WORKDIR /app
 COPY package*.json .
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
+ADD public/ /app/public/
 CMD ["node", "dist/index.js"]
