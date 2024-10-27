@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json .
 COPY tsconfig.json .
 ADD src/ /app/src/
-ADD src/ /app/public/
+ADD public/ /app/public/
 RUN npm install
 RUN npm run build
 
