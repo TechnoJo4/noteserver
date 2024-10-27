@@ -12,6 +12,6 @@ FROM node:16-alpine
 
 WORKDIR /app
 COPY package*.json .
-RUN npm ci --only=production
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 CMD ["node", "dist/index.js"]
