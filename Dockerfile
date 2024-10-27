@@ -1,15 +1,15 @@
-FROM node:20-alpine AS build
+FROM node:20 AS build
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package.json .
 COPY tsconfig.json .
-RUN npm install
 ADD src/ /app/src/
 ADD src/ /app/public/
+RUN npm install
 RUN npm run build
 
-FROM node:20-alpine
+FROM node:20
 
 WORKDIR /app
 COPY package*.json .
