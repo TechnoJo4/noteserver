@@ -61,9 +61,14 @@ const openEditor = async () => {
             Prec.highest(keymap.of([{
                 key: 'Mod-s',
                 run: ({state}) => {
+                    const content = state.doc.toString();
+                    document.getElementById("maincontainer")!.innerHTML = Note({ path: location.pathname, content });
+
                     fetch(SRC_BASE + location.pathname, {
                         method: "PUT",
-                        body: state.doc.toString()
+                        body: content
+                    }).then(res => {
+                        if (!res.ok) alert(`Save error: ${res.status} ${res.statusText}`);
                     });
                     return true;
                 }
