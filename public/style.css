@@ -2,9 +2,6 @@
 	margin: auto;
 	max-width: 60%;
 }
-.cm-editor {
-	height: 45vh;
-}
 
 body {
 	margin: 0;
@@ -57,7 +54,21 @@ td, th {
 	}
 }
 
-/* hljs */
+/* editor */
+.cm-editor {
+	height: 45vh;
+}
+.cm-editor .cm-cursor {
+	border-left-color: white;
+}
+.cm-activeLine {
+  background-color: rgba(0.2,0.2,0.2,0.2) !important;
+}
+.cm-selectionBackground, .cm-editor ::selection {
+  background-color: #444444 !important;
+}
+
+/* syntax highlighting */
 .hljs {
   color: #c9d1d9;
 }

@@ -50,6 +50,7 @@ const openEditor = async () => {
     editor = new EditorView({
         doc: contents,
         extensions: [
+            EditorView.lineWrapping,
             keymap.of(defaultKeymap),
             lineNumbers(),
             drawSelection(),
