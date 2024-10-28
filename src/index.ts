@@ -18,7 +18,10 @@ app.use("/src", (req, res, next) => {
     if (req.method !== "PUT") return next();
     if (!isAuthenticated(req)) return void res.sendStatus(403);
 
-    const fsStream = fs.createWriteStream(reqFilePath(req));
+    const file = reqFilePath(req);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    const fsStream = fs.createWriteStream(file);
+
     req.pipe(fsStream);
     req.on('end', () => {
         fsStream.close();
@@ -46,7 +49,7 @@ app.use("/", (req, res, next) => {
     
     const markdown = fs.existsSync(path)
         ? fs.readFileSync(path, { encoding: "utf8" })
-        : `# ${path}?\n\nNot Found`;
+        : `# Not Found\n[Edit](#edit) to create?`;
 
     const html = renderNotePage(req.path, markdown);
     res.type("html").send("<!DOCTYPE html>" + html);
