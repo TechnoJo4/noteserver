@@ -23,6 +23,10 @@ blockquote {
 	padding-left: 2em;
 	margin: 0;
 }
+summary {
+	margin-bottom: 1em;
+	text-decoration: underline;
+}
 table {
 	width: 100%;
 	border-collapse: collapse;
