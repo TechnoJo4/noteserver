@@ -43,9 +43,12 @@ app.use("/", (req, res, next) => {
 
     const path = reqFilePath(req);
     console.log(path);
-    if (!fs.existsSync(path)) return void res.sendStatus(404);
+    
+    const markdown = fs.existsSync(path)
+        ? fs.readFileSync(path, { encoding: "utf8" })
+        : `# ${path}?\n\nNot Found`;
 
-    const html = renderNotePage(req.path, fs.readFileSync(path, { encoding: "utf8" }));
+    const html = renderNotePage(req.path, markdown);
     res.type("html").send("<!DOCTYPE html>" + html);
     next();
 });
