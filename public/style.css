@@ -15,6 +15,9 @@ a {
 p {
 	margin: 0 0 1em 0;
 }
+p + ul, p + ol {
+	margin-top: -0.6em;
+}
 blockquote {
 	border-left: 4px solid #d8d8d8;
 	padding-left: 2em;
