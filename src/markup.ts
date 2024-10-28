@@ -1,9 +1,19 @@
 import { marked, Tokenizer, Tokens } from "marked";
 import { markedSmartypants } from "marked-smartypants";
 import markedKatex from "marked-katex-extension";
+import { markedHighlight } from "marked-highlight";
+import hljs from 'highlight.js';
 
 marked.use(markedSmartypants());
 marked.use(markedKatex({ throwOnError: false }));
+marked.use(markedHighlight({
+	emptyLangClass: 'hljs',
+	langPrefix: 'hljs language-',
+	highlight(code, lang, info) {
+		const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+		return hljs.highlight(code, { language }).value;
+	}
+}))
 
 // Allow links to other [[Articles]] within the same notes-wiki-thing
 class XTokenizer extends Tokenizer {
