@@ -7,7 +7,7 @@ import { closeBrackets, autocompletion } from '@codemirror/autocomplete';
 import * as langMarkdown from '@codemirror/lang-markdown';
 import { Prec } from '@codemirror/state';
 
-let editor: EditorView;
+let editor: EditorView | undefined = undefined;
 
 const NOTE_BASE = location.origin;
 const SRC_BASE = location.origin + "/src";
@@ -76,14 +76,18 @@ const openEditor = async () => {
         ],
         parent: document.getElementById("editcontainer")!
     });
-    console.log(editor);
 };
 
 document.addEventListener("click", e => {
 	if (!(e?.target instanceof HTMLAnchorElement)) return;
 
     if (e.target.getAttribute("href") === "#edit") {
-        openEditor();
+        if (editor === undefined) {
+            openEditor();
+        } else {
+            editor.destroy();
+            editor = undefined;
+        }
     } else if (e.target.href?.startsWith(NOTE_BASE) && !e.target.href?.match(/(?:[#?]|src\/)/)) {
 		e.stopPropagation(); 
 		e.preventDefault();
