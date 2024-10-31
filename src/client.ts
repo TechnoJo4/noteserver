@@ -89,6 +89,8 @@ document.addEventListener("click", e => {
             editor.destroy();
             editor = undefined;
         }
+    } else if (editor !== undefined) {
+        //
     } else if (e.target.href?.startsWith(NOTE_BASE) && !e.target.href?.match(/(?:[#?]|src\/)/)) {
 		e.stopPropagation(); 
 		e.preventDefault();
