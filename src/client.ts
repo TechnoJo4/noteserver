@@ -67,9 +67,12 @@ const openEditor = async () => {
 
                     fetch(SRC_BASE + location.pathname, {
                         method: "PUT",
-                        body: content
+                        body: content,
+                        redirect: "error"
                     }).then(res => {
                         if (!res.ok) alert(`Save error: ${res.status} ${res.statusText}`);
+                    }).catch(err => {
+                        window.open(location.origin+"/authelia", "_blank")?.focus();
                     });
                     return true;
                 }
