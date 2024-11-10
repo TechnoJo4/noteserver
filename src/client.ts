@@ -15,16 +15,11 @@ const SRC_BASE = location.origin + "/src";
 const cache: Record<string, string> = {};
 const promises: Record<string, Promise<string>> = {};
 
-const pathToURL = (path: string) => {
-    path = SRC_BASE + path;
-    return path.endsWith("/") ? path + "index.md" : path + ".md";
-};
-
 const getNote = (path: string) => {
     if (cache[path]) return Promise.resolve(cache[path]);
     if (promises[path] !== undefined) return promises[path];
 
-    return promises[path] = fetch(pathToURL(path)).then(res => {
+    return promises[path] = fetch(SRC_BASE + path).then(res => {
         if (!res.ok) {
             let createLink = res.status === 404 ? ` (<a href="#edit">create</a>)` : "";
 
