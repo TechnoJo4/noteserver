@@ -31,6 +31,7 @@ app.use("/src", (req, res, next) => {
             fsStream.close();
             res.end();
         });
+        return;
     }
 
     if (req.method === "PUT") {
@@ -44,6 +45,7 @@ app.use("/src", (req, res, next) => {
             fsStream.close();
             res.end();
         });
+        return;
     }
     return next();
 });
