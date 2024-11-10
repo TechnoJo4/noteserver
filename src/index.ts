@@ -14,7 +14,7 @@ const reqFilePath = (req: express.Request) => {
 
 const app = express();
 
-const neededGroups = (file: string) => file.split(path.sep).filter(s => s[0] === "~");
+const neededGroups = (file: string) => file.split(path.sep).filter(s => s[0] === "~").map(s => s.substring(1));
 
 app.use("/src", (req, res, next) => {
     const file = reqFilePath(req);
