@@ -1,4 +1,4 @@
-import { isAuthenticated } from "./auth.js";
+import { hasGroup, canEdit } from "./auth.js";
 import { renderNotePage, renderAtomFeed } from "./note.js";
 
 import express from "express";
@@ -14,22 +14,40 @@ const reqFilePath = (req: express.Request) => {
 
 const app = express();
 
+const neededGroups = (file: string) => file.split(path.sep).filter(s => s[0] === "~");
+
 app.use("/src", (req, res, next) => {
-    if (req.method !== "PUT") return next();
-    if (!isAuthenticated(req)) return void res.sendStatus(403);
-
     const file = reqFilePath(req);
-    fs.mkdirSync(path.dirname(file), { recursive: true });
-    const fsStream = fs.createWriteStream(file);
+    for (let group of neededGroups(file))
+        if (!hasGroup(req, group))
+            return void res.sendStatus(403);
 
-    req.pipe(fsStream);
-    req.on('end', () => {
-        fsStream.close();
-        res.end();
-    });
+    if (req.method === "GET") {
+        if (!fs.existsSync(file)) return void res.sendStatus(404);
+        const fsStream = fs.createReadStream(file);
+
+        fsStream.pipe(res);
+        fsStream.on('end', () => {
+            fsStream.close();
+            res.end();
+        });
+    }
+
+    if (req.method === "PUT") {
+        if (!canEdit(req)) return void res.sendStatus(403);
+
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        const fsStream = fs.createWriteStream(file);
+
+        req.pipe(fsStream);
+        req.on('end', () => {
+            fsStream.close();
+            res.end();
+        });
+    }
+    return next();
 });
 
-app.use("/src", express.static("notes"));
 app.use("/dist", express.static("dist"));
 app.use("/", express.static("public"));
 
@@ -45,8 +63,10 @@ app.use("/", (req, res, next) => {
     if (req.method !== "GET") return next();
 
     const path = reqFilePath(req);
-    console.log(path);
-    
+    for (let group of neededGroups(path))
+        if (!hasGroup(req, group))
+            return void res.sendStatus(403);
+
     const markdown = fs.existsSync(path)
         ? fs.readFileSync(path, { encoding: "utf8" })
         : `# Not Found\n[Edit](#edit) to create?`;
