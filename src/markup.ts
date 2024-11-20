@@ -39,6 +39,9 @@ highlighter.registerLanguage("k", function(hljs) {
 		]
 	};
 });
+highlighter.registerLanguage("plaintext", function(hljs) {
+	return { disableAutodetect: true, contains: [] };
+});
 
 marked.use(markedSmartypants());
 marked.use(markedKatex({ throwOnError: false }));
