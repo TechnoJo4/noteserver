@@ -27,6 +27,7 @@ export function renderNotePage(path: string, markdown: string): string {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link href="/style.css" rel="stylesheet" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous" />
+            <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Sitewide Atom feed" />
             <title>{entityEscapeHtmlChars(getMarkdownTitle(markdown))}</title>
         </head>
         <body>
@@ -37,8 +38,4 @@ export function renderNotePage(path: string, markdown: string): string {
             <script src="/dist/client.js" type="module"></script>
         </body>
     </html>);
-}
-
-export function renderAtomFeed(tag: string | undefined): string {
-    return (<feed xmlns="http://www.w3.org/2005/Atom"></feed>);
 }

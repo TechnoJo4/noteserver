@@ -1,9 +1,10 @@
 import { hasGroup, canEdit } from "./auth.js";
-import { renderNotePage, renderAtomFeed } from "./note.js";
+import { renderNotePage } from "./note.js";
 
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { FeedItem, renderAtomFeed } from "./atom.js";
 
 const reqFilePath = (req: express.Request) => {
     let normalized = path.normalize(req.path.toLowerCase());
@@ -53,12 +54,20 @@ app.use("/src", (req, res, next) => {
 app.use("/dist", express.static("dist"));
 app.use("/", express.static("public"));
 
-app.get("/:tag.xml", (req, res) => {
-    let tag: string | undefined = req.params.tag;
-    if (tag == "" || tag == "feed")
-        tag = undefined;
+app.get("/feed.xml", (req, res) => {
+    const feed = fs.readFileSync("notes/feed.md", { encoding: "utf8" });
+    let items: FeedItem[] = [];
+    for (const match of feed.matchAll(/^## (\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ) - \[(.+?)\]\((.+?)\)(?:\n\(([^\n]+?)\))?\n\n(.+?)$/gm)) {
+        items.push({
+            date: match[1],
+            title: match[2],
+            href: match[3],
+            tags: match[4] ? match[4].split(",") : [],
+            summary: match[5]
+        });
+    }
 
-    res.type("application/atom+xml").send('<?xml version="1.0" encoding="utf-8" ?>' + renderAtomFeed(tag));
+    res.type("application/atom+xml").send(renderAtomFeed(items));
 });
 
 app.use("/", (req, res, next) => {

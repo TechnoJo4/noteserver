@@ -8,7 +8,6 @@ export function hasGroup(req: Request, group: string): boolean {
     }
 
     return groups.indexOf(group) !== -1;
-
 }
 
 export const canEdit = (req: Request) => hasGroup(req, "note-edit");
