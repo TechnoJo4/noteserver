@@ -2,12 +2,10 @@ import { marked, Tokenizer, Tokens } from "marked";
 import { markedSmartypants } from "marked-smartypants";
 import markedKatex from "marked-katex-extension";
 import { markedHighlight } from "marked-highlight";
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/common';
 
-const highlighter = hljs.newInstance();
-
-highlighter.unregisterLanguage("q");
-highlighter.registerLanguage("k", function(hljs) {
+hljs.unregisterLanguage("q");
+hljs.registerLanguage("k", function(hljs) {
 	return {
 		name: 'K',
 		aliases: ["q", "kdb"],
@@ -39,9 +37,6 @@ highlighter.registerLanguage("k", function(hljs) {
 		]
 	};
 });
-highlighter.registerLanguage("plaintext", function(hljs) {
-	return { disableAutodetect: true, contains: [] };
-});
 
 marked.use(markedSmartypants());
 marked.use(markedKatex({ throwOnError: false }));
@@ -49,8 +44,8 @@ marked.use(markedHighlight({
 	emptyLangClass: 'hljs',
 	langPrefix: 'hljs language-',
 	highlight(code, lang, info) {
-		const language = highlighter.getLanguage(lang) ? lang : 'plaintext';
-		return highlighter.highlight(code, { language }).value;
+		const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+		return hljs.highlight(code, { language }).value;
 	}
 }))
 
