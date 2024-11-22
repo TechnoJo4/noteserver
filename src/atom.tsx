@@ -12,7 +12,7 @@ function renderFeedItem(item: FeedItem): string {
     const url = "https://merkletr.ee"+item.href;
     return (<entry>
         <title>{item.title}</title>
-        <content src={url} />
+        <content src={url} type="text/html" />
         <link href={url} />
         <id>{url}</id>
         <published>{item.date}</published>
@@ -29,7 +29,7 @@ export function renderAtomFeed(feed: FeedItem[]): string {
         <title type="text">merkletr.ee</title>
         <link href="https://merkletr.ee/feed.xml" rel="self" />
         <link href="https://merkletr.ee/" />
-        <id>https://merkletr.ee</id>
+        <id>https://merkletr.ee/</id>
 		<author>
 			<name>rkletr</name>
 			<email>me@rkletr.ee</email>
