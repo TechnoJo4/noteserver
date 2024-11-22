@@ -13,6 +13,7 @@ function renderFeedItem(item: FeedItem): string {
     return (<entry>
         <title>{item.title}</title>
         <content src={url} />
+        <link href={url} />
         <id>{url}</id>
         <published>{item.date}</published>
         <updated>{item.date}</updated>
