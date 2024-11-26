@@ -17,6 +17,8 @@ export function Note(props: { path: string, content: string }) {
             <a href="#edit">edit</a>
         </div>
         {rendered}
+        <hr />
+        <a href="/">Home</a>&emsp;<a href="https://technojo4.com/">About</a>&emsp;<a href="/contact">Contact</a>
     </>);
 }
 
