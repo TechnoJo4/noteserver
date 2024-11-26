@@ -9,7 +9,7 @@ export function getMarkdownTitle(markdown: string) {
     return titleMatch ? titleMatch[1] : "notes";
 };
 
-export function Note(props: { path: string, content: string, children?: string[] }) {
+export function Note(props: { path: string, content: string }) {
     const rendered = marked(props.content);
 
     return (<>

@@ -9,4 +9,4 @@ export const entityEscapeHtmlChars = (str: string) => {
     return str.replace(/[&<>"']/g, (s) => characters[s]);
 };
 
-export const Fragment = (props: { children: string[] }) => props.children.join("");
+export const Fragment = (props: { children?: string[] }) => (props.children || []).join("");
