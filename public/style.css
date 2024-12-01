@@ -76,6 +76,11 @@ td, th {
   color: #c9d1d9;
 }
 
+/* k code is dense so i like increasing the font size for it */
+.hljs.language-k {
+  font-size: 1.4em;
+}
+
 .hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_, .hljs-k_verb {
   /* prettylights-syntax-keyword */
   color: #ff7b72;

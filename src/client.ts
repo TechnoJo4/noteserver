@@ -3,7 +3,7 @@ import { Note, getMarkdownTitle } from './note.js';
 
 import { EditorView, keymap, lineNumbers, drawSelection, highlightActiveLine, highlightSpecialChars } from "@codemirror/view";
 import { defaultKeymap, history as cmhistory } from "@codemirror/commands";
-import { closeBrackets, autocompletion } from '@codemirror/autocomplete';
+import { closeBrackets, autocompletion, acceptCompletion } from '@codemirror/autocomplete';
 import * as langMarkdown from '@codemirror/lang-markdown';
 import { Prec } from '@codemirror/state';
 
@@ -54,6 +54,7 @@ const openEditor = async () => {
             closeBrackets(),
             autocompletion(),
             langMarkdown.markdown(),
+            keymap.of([{key: "Tab", run: acceptCompletion}]),
             Prec.highest(keymap.of([{
                 key: 'Mod-s',
                 run: ({state}) => {
