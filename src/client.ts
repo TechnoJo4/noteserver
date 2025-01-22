@@ -33,7 +33,7 @@ const getNote = (path: string) => {
 };
 
 const goToNote = async (path: string) => {
-    const container = document.getElementById("maincontainer")!;
+    const container = document.getElementById("maincontent")!;
 
     const content = await getNote(path);
     container.innerHTML = Note({ path, content });
@@ -59,7 +59,7 @@ const openEditor = async () => {
                 key: 'Mod-s',
                 run: ({state}) => {
                     const content = state.doc.toString();
-                    document.getElementById("maincontainer")!.innerHTML = Note({ path: location.pathname, content });
+                    document.getElementById("maincontent")!.innerHTML = Note({ path: location.pathname, content });
 
                     fetch(SRC_BASE + location.pathname, {
                         method: "PUT",

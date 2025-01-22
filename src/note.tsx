@@ -17,12 +17,10 @@ export function Note(props: { path: string, content: string }) {
             <a href="#edit">edit</a>
         </div>
         {rendered}
-        <hr />
-        <a href="/">Home</a>&emsp;<a href="https://technojo4.com/">About</a>&emsp;<a href="/contact">Contact</a>
     </>);
 }
 
-export function renderNotePage(path: string, markdown: string): string {
+export function renderNotePage(path: string, markdown: string, footer: string): string {
     return (<html>
         <head>
             <meta charset="utf-8" />
@@ -35,7 +33,10 @@ export function renderNotePage(path: string, markdown: string): string {
         <body>
             <div id="editcontainer"></div>
             <div id="maincontainer">
-                <Note path={path} content={markdown} />
+                <div id="maincontent">
+                    <Note path={path} content={markdown} />
+                </div>
+                {footer}
             </div>
             <script src="/dist/client.js" type="module"></script>
         </body>

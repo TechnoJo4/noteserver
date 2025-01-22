@@ -17,6 +17,8 @@ const app = express();
 
 const neededGroups = (file: string) => file.split(path.sep).filter(s => s[0] === "~").map(s => s.substring(1));
 
+const footer = fs.readFileSync("footer.html", { encoding: "utf8" });
+
 app.use("/src", (req, res, next) => {
     const file = reqFilePath(req);
     const fileGroups = neededGroups(file);
@@ -91,7 +93,7 @@ app.use("/", (req, res, next) => {
         ? fs.readFileSync(path, { encoding: "utf8" })
         : `# Not Found\n[Edit](#edit) to create?`;
 
-    const html = renderNotePage(req.path, markdown);
+    const html = renderNotePage(req.path, markdown, footer);
     res.type("html").send("<!DOCTYPE html>" + html);
     next();
 });
