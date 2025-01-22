@@ -19,7 +19,8 @@ const neededGroups = (file: string) => file.split(path.sep).filter(s => s[0] ===
 
 app.use("/src", (req, res, next) => {
     const file = reqFilePath(req);
-    for (let group of neededGroups(file))
+    const fileGroups = neededGroups(file);
+    for (let group of fileGroups)
         if (!hasGroup(req, group))
             return void res.sendStatus(403);
 
@@ -36,7 +37,15 @@ app.use("/src", (req, res, next) => {
     }
 
     if (req.method === "PUT") {
-        if (!canEdit(req)) return void res.sendStatus(403);
+        if (fileGroups) {
+            if (!hasGroup(req, "note_edit_all"))
+                for (let group of fileGroups)
+                    if (!hasGroup(req, group+"_edit"))
+                        return void res.sendStatus(403);
+        } else {
+            if (!hasGroup(req, "note_edit_all"))
+                return void res.sendStatus(403);
+        }
 
         fs.mkdirSync(path.dirname(file), { recursive: true });
         const fsStream = fs.createWriteStream(file);
