@@ -39,7 +39,7 @@ app.use("/src", (req, res, next) => {
     }
 
     if (req.method === "PUT") {
-        if (fileGroups) {
+        if (fileGroups.length != 0) {
             if (!hasGroup(req, "note_edit_all"))
                 for (let group of fileGroups)
                     if (!hasGroup(req, group+"_edit"))
