@@ -6,11 +6,13 @@ import fs from "fs";
 import path from "path";
 import { FeedItem, renderAtomFeed } from "./atom.js";
 
-const reqFilePath = (req: express.Request) => {
+const reqFilePath = (req: express.Request, allowExt: boolean = false) => {
     let normalized = path.normalize(req.path.toLowerCase());
     if (normalized.endsWith(path.sep) || normalized == "")
         normalized += "index";
-    return path.join("./notes", normalized+".md");
+
+    let ext = allowExt && normalized.indexOf(".") !== -1 ? "" : ".md";
+    return path.join("./notes", normalized+ext);
 };
 
 const app = express();
@@ -20,7 +22,7 @@ const neededGroups = (file: string) => file.split(path.sep).filter(s => s[0] ===
 const footer = fs.readFileSync("footer.html", { encoding: "utf8" });
 
 app.use("/src", (req, res, next) => {
-    const file = reqFilePath(req);
+    const file = reqFilePath(req, true);
     const fileGroups = neededGroups(file);
     for (let group of fileGroups)
         if (!hasGroup(req, group))
