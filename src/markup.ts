@@ -29,6 +29,23 @@ hljs.registerLanguage("k", function(hljs) {
 				scope: "k_symbol",
 				begin: '`[a-zA-Z0-9]+',
 			},
+
+			// goal
+			// modified from hljs.REGEXP_MODE
+			{
+				scope: "regexp",
+				begin: /rx\/(?=[^/\n]*\/)/,
+				end: /\//,
+				contains: [
+					hljs.BACKSLASH_ESCAPE,
+					{
+						begin: /\[/,
+						end: /\]/,
+						relevance: 0,
+						contains: [hljs.BACKSLASH_ESCAPE]
+					}
+				]
+			}
 		]
 	};
 });
