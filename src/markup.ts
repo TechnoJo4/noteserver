@@ -18,11 +18,6 @@ hljs.registerLanguage("k", function(hljs) {
 			hljs.QUOTE_STRING_MODE,
 			hljs.C_NUMBER_MODE,
 			{
-				scope: "meta",
-				begin: /^\\[^\n]/,
-				end: /$/,
-			},
-			{
 				scope: "k_verb",
 				begin: '[+\\-*%!&|<>=~,^#_$?@.:]:?',
 			},
