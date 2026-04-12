@@ -23,6 +23,9 @@ blockquote {
 	padding-left: 2em;
 	margin: 0;
 }
+details[open]::details-content {
+  padding-left: 1em;
+}
 summary {
 	margin-bottom: 1em;
 	text-decoration: underline;
